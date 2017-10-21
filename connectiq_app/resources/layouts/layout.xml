@@ -1,4 +1,8 @@
 <layout id="MainLayout">
-    <label id="id_text_line01" x="25" y="79" font="Gfx.FONT_XTINY" justification="Gfx.TEXT_JUSTIFY_LEFT" />
-    <label id="id_text_line02" x="25" y="119" font="Gfx.FONT_XTINY" justification="Gfx.TEXT_JUSTIFY_LEFT" />
+    <label id="id_title" color ="Gfx.COLOR_BLUE" font="Gfx.FONT_SMALL" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label id="id_data_desc" color ="Gfx.COLOR_LT_GRAY" font="Gfx.FONT_MEDIUM" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label id="id_data_value" font="Gfx.FONT_LARGE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label id="id_secondary_data_desc" color ="Gfx.COLOR_LT_GRAY" font="Gfx.FONT_MEDIUM" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label id="id_secondary_data_value" font="Gfx.FONT_LARGE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <bitmap id="id_hackisu_img" x="95" y ="180" filename="../images/hackisu.png" />
 </layout>
