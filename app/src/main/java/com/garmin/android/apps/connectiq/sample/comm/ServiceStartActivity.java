@@ -15,12 +15,25 @@ public class ServiceStartActivity extends Activity {
         setContentView(R.layout.activity_service_start);
     }
 
+    // Method that executes when button is pressed. FOR TESTING PURPOSES.
     public void buttonClick(View view){
+        // Initialize fake bundle and send it
+        Bundle b = new Bundle();
+        b.putString(MyIntentService.TACH, "1548");
+        b.putString(MyIntentService.SPEED, "018");
+        b.putString(MyIntentService.THROTTLE, "40%");
+        b.putString(MyIntentService.OIL_TEMP, "168F");
+        b.putString(MyIntentService.FUEL_LEVEL, "82%");
+        b.putString(MyIntentService.FUEL_CONSUMPTION, "0.08 GPM");
 
+        sendMessageWithService(b);
+    }
+
+    // Method to send one message to the watch from a bundle.
+    public void sendMessageWithService(Bundle b){
         Intent i = new Intent(this, MyIntentService.class);
-        i.putExtra(MyIntentService.PARAM_IN_MSG, "message here");
+        i.putExtras(b);
         startService(i);
-
         Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
     }
 }

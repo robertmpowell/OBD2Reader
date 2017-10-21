@@ -3,6 +3,7 @@ package com.garmin.android.apps.connectiq.sample.comm;
 import android.app.AlertDialog;
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -31,6 +32,12 @@ public class MyIntentService extends IntentService {
     public static final String PARAM_IN_MSG = "imsg";
     public static final String PARAM_OUT_MSG = "omsg";
 
+    public static final String TACH = "tach";
+    public static final String SPEED = "speed";
+    public static final String THROTTLE = "throttle";
+    public static final String OIL_TEMP = "oil_temp";
+    public static final String FUEL_LEVEL = "fuel_level";
+    public static final String FUEL_CONSUMPTION = "fuel_consumption";
 
     private ConnectIQ mConnectIQ;
     private IQDeviceAdapter mAdapter;
@@ -53,45 +60,30 @@ public class MyIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent){
 
-//        String s = intent.getStringExtra(PARAM_IN_MSG);
-
         mConnectIQ.initialize(getApplicationContext(), true, mListener);
         loadDevices();
 
         IQDevice mDevice = devices.get(0);
 
-//        Intent i = new Intent(this, DeviceActivity.class);
-//        i.putExtra(DeviceActivity.IQDEVICE, device);
-//        startActivity(i);
-
+        // Ask the watch to open our application
         mMyApp = new IQApp(MY_APP);
-
         try {
             mConnectIQ.openApplication(mDevice, mMyApp, mOpenAppListener);
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-
-
+        // Begin transmission sequence if device is present.
         if (mDevice != null) {
-//            mDeviceName.setText(mDevice.getFriendlyName());
-//            mDeviceStatus.setText(mDevice.getStatus().name());
-//
-//            mOpenAppButton.setOnClickListener(this);
-
-            // Get our instance of ConnectIQ.  Since we initialized it
-            // in our MainActivity, there is no need to do so here, we
-            // can just get a reference to the one and only instance.
+            // Get our instance of ConnectIQ (reference the one created)
             mConnectIQ = ConnectIQ.getInstance();
             try {
                 mConnectIQ.registerForDeviceEvents(mDevice, new ConnectIQ.IQDeviceEventListener() {
-
                     @Override
                     public void onDeviceStatusChanged(IQDevice device, IQDevice.IQDeviceStatus status) {
                         // Since we will only get updates for this device, just display the status
-//                        mDeviceStatus.setText(status.name());
+                        Log.d(TAG, "onDeviceStatusChanged: " + status.name());
                     }
-
                 });
             } catch (InvalidStateException e) {
                 Log.wtf(TAG, "InvalidStateException:  We should not be here!");
@@ -100,93 +92,49 @@ public class MyIntentService extends IntentService {
             // Let's check the status of our application on the device.
             try {
                 mConnectIQ.getApplicationInfo(MY_APP, mDevice, new ConnectIQ.IQApplicationInfoListener() {
-
                     @Override
                     public void onApplicationInfoReceived(IQApp app) {
                         // This is a good thing. Now we can show our list of message options.
-//                        String[] options = getResources().getStringArray(R.array.send_message_display);
-//
-//                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(DeviceActivity.this, android.R.layout.simple_list_item_1, options);
-//                        setListAdapter(adapter);
-
                         // Send a message to open the app
                         try {
                             Toast.makeText(getApplicationContext(), "Opening app...", Toast.LENGTH_SHORT).show();
 //                            mConnectIQ.openApplication(mDevice, app, mOpenAppListener);
                         } catch (Exception ex) {
+                            ex.printStackTrace();
                         }
                     }
-
                     @Override
                     public void onApplicationNotInstalled(String applicationId) {
-                        // The Comm widget is not installed on the device so we have
-                        // to let the user know to install it.
-//                        AlertDialog.Builder dialog = new AlertDialog.Builder(DeviceActivity.this);
-//                        dialog.setTitle(R.string.missing_widget);
-//                        dialog.setMessage(R.string.missing_widget_message);
-//                        dialog.setPositiveButton(android.R.string.ok, null);
-//                        dialog.create().show();
+                        // The Comm widget is not installed on the device.
+                        String e = "Error: Install the App on the watch first!";
+                        Toast.makeText(MyIntentService.this, e, Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "onApplicationNotInstalled: " + e);
                     }
-
                 });
             } catch (InvalidStateException e1) {
             } catch (ServiceUnavailableException e1) {
             }
-
-//            // Let's register to receive messages from our application on the device.
-//            try {
-//                mConnectIQ.registerForAppEvents(mDevice, mMyApp, new ConnectIQ.IQApplicationEventListener() {
-//
-//                    @Override
-//                    public void onMessageReceived(IQDevice device, IQApp app, List<Object> message, ConnectIQ.IQMessageStatus status) {
-//
-//                        // We know from our Comm sample widget that it will only ever send us strings, but in case
-//                        // we get something else, we are simply going to do a toString() on each object in the
-//                        // message list.
-//                        StringBuilder builder = new StringBuilder();
-//
-//                        if (message.size() > 0) {
-//                            for (Object o : message) {
-//                                builder.append(o.toString());
-//                                builder.append("\r\n");
-//                            }
-//                        } else {
-//                            builder.append("Received an empty message from the application");
-//                        }
-//
-////                        AlertDialog.Builder dialog = new AlertDialog.Builder(DeviceActivity.this);
-////                        dialog.setTitle(R.string.received_message);
-////                        dialog.setMessage(builder.toString());
-////                        dialog.setPositiveButton(android.R.string.ok, null);
-////                        dialog.create().show();
-//                    }
-//
-//                });
-//            } catch (InvalidStateException e) {
-//                Toast.makeText(this, "ConnectIQ is not in a valid state", Toast.LENGTH_SHORT).show();
-//            }
         }
 
-
-        Object message = MessageFactory.getMessage(this, 0);
+        // Sends the message
         try {
-
+            // Constructs the Map to send from the bundle
+            Bundle b = intent.getBundleExtra("bundle");
             Map<String, Object> dictionary = new HashMap<String, Object>();
-            dictionary.put("tach", "0748");
-            dictionary.put("speed", "001");
-            dictionary.put("throttle", "05%");
-            dictionary.put("oil_temp", "180F");
-            dictionary.put("fuel_level", "05%");
-            dictionary.put("fuel_consumption", "0.04 gpm");
-            
+            dictionary.put(TACH, b.getString(TACH));
+            dictionary.put(SPEED, b.getString(SPEED));
+            dictionary.put(THROTTLE, b.getString(THROTTLE));
+            dictionary.put(OIL_TEMP, b.getString(OIL_TEMP));
+            dictionary.put(FUEL_LEVEL, b.getString(FUEL_LEVEL));
+            dictionary.put(FUEL_CONSUMPTION, b.getString(FUEL_CONSUMPTION));
+
+            // Sends the message
             mConnectIQ.sendMessage(mDevice, mMyApp, dictionary, new ConnectIQ.IQSendMessageListener() {
 
                 @Override
                 public void onMessageStatus(IQDevice device, IQApp app, ConnectIQ.IQMessageStatus status) {
                     Toast.makeText(MyIntentService.this, status.name(), Toast.LENGTH_SHORT).show();
-//                    Toast.makeText(getApplicationContext().this, status.name(), Toast.LENGTH_SHORT).show();
                 }
-
             });
         } catch (InvalidStateException e) {
             Toast.makeText(this, "ConnectIQ is not in a valid state", Toast.LENGTH_SHORT).show();
@@ -196,39 +144,29 @@ public class MyIntentService extends IntentService {
 
     }
 
+    // Listener to get statuses.
     private ConnectIQ.ConnectIQListener mListener = new ConnectIQ.ConnectIQListener() {
             @Override
             public void onInitializeError(ConnectIQ.IQSdkErrorStatus errStatus) {
-                Log.d("error","error");
+                Log.d(TAG, "onInitializeError: ");
             }
 
             @Override
             public void onSdkReady() {
-                Log.d("error","error");
+                Log.d(TAG, "onSdkReady: ");
             }
 
             @Override
             public void onSdkShutDown() {
-            Log.d("error","error");
+                Log.d(TAG, "onSdkShutDown: ");
         }
     };
 
+    // Gets devices from the internal list of known devices.
     public void loadDevices() {
         // Retrieve the list of known devices
         try {
             devices = mConnectIQ.getKnownDevices();
-
-//            if (devices != null) {
-//                mAdapter.setDevices(devices);
-//
-//                // Let's register for device status updates.  By doing so we will
-//                // automatically get a status update for each device so we do not
-//                // need to call getStatus()
-//                for (IQDevice device : devices) {
-//                    mConnectIQ.registerForDeviceEvents(device, mDeviceEventListener);
-//                }
-//            }
-
         } catch (InvalidStateException e) {
             // This generally means you forgot to call initialize(), but since
             // we are in the callback for initialize(), this should never happen
@@ -241,6 +179,7 @@ public class MyIntentService extends IntentService {
         }
     }
 
+    // Catches status of the application.
     private ConnectIQ.IQOpenApplicationListener mOpenAppListener = new ConnectIQ.IQOpenApplicationListener() {
         @Override
         public void onOpenApplicationResponse(IQDevice device, IQApp app, ConnectIQ.IQOpenApplicationStatus status) {
