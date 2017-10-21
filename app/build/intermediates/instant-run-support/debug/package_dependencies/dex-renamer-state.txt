@@ -1,0 +1,7 @@
+#Fri Oct 20 22:39:10 CDT 2017
+base.0=C\:\\eclipse\\garmin\\connectiq-mobile-sdk-android-1.4\\Sample\\Comm\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\support-v4-19.1.0_fbbf89149698bcdbdf6054ab149c4a41477db412
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=C\:\\eclipse\\garmin\\connectiq-mobile-sdk-android-1.4\\Sample\\Comm\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\2\\connectiq_b9d6e4d98c1d765ad15e46e78c7bd05e165fe532\\classes.dex
+base.1=C\:\\eclipse\\garmin\\connectiq-mobile-sdk-android-1.4\\Sample\\Comm\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\2\\connectiq_b9d6e4d98c1d765ad15e46e78c7bd05e165fe532
+file.0=C\:\\eclipse\\garmin\\connectiq-mobile-sdk-android-1.4\\Sample\\Comm\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\support-v4-19.1.0_fbbf89149698bcdbdf6054ab149c4a41477db412\\classes.dex
