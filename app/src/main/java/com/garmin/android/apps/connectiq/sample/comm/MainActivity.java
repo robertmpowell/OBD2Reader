@@ -69,6 +69,8 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        startActivity(new Intent(this, ServiceStartActivity.class));
+
         mAdapter = new IQDeviceAdapter(this);
         getListView().setAdapter(mAdapter);
 
