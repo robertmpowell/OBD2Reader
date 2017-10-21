@@ -1,0 +1,4 @@
+<layout id="MainLayout">
+    <label id="id_text_line01" x="25" y="79" font="Gfx.FONT_XTINY" justification="Gfx.TEXT_JUSTIFY_LEFT" />
+    <label id="id_text_line02" x="25" y="119" font="Gfx.FONT_XTINY" justification="Gfx.TEXT_JUSTIFY_LEFT" />
+</layout>
