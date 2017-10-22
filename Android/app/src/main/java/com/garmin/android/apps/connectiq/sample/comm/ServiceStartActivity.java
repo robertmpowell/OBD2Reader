@@ -33,39 +33,39 @@ public class ServiceStartActivity extends Activity {
         b.putDouble(MyIntentService.THROTTLE, 40);
         b.putDouble(MyIntentService.OIL_TEMP, 182);
         b.putDouble(MyIntentService.FUEL_LEVEL, 82);
-        b.putDouble(MyIntentService.FUEL_CONSUMPTION, 8);
+        b.putDouble(MyIntentService.FUEL_CONSUMPTION, 0.1);
 
         sendMessageWithService(b);
 
 //        Toast.makeText(this, "Beginning tach/speed cycle", Toast.LENGTH_SHORT).show();
 //        try {
-//            Thread.sleep(5000);
+//            Thread.sleep(1000);
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-//
-//        double tach, speed;
-//
-//        for(int i = 0; i <= 7; i++){
-//            tach = i * 1000;
-//            speed = i * 10;
-//            b.clear();
-//            b.putDouble(MyIntentService.TACH, tach);
-//            b.putDouble(MyIntentService.SPEED, speed);
-//            b.putDouble(MyIntentService.THROTTLE, 40);
-//            b.putDouble(MyIntentService.OIL_TEMP, 182);
-//            b.putDouble(MyIntentService.FUEL_LEVEL, 82);
-//            b.putDouble(MyIntentService.FUEL_CONSUMPTION, 8);
-//
-//            sendMessageWithService(b);
-//            Log.d(TAG, "Sent that message! i = " + i);
-//
+
+        double tach, speed;
+
+        for(int i = 0; i <= 7; i++){
+            tach = i * 1000;
+            speed = i * 10;
+            b.clear();
+            b.putDouble(MyIntentService.TACH, tach);
+            b.putDouble(MyIntentService.SPEED, speed);
+            b.putDouble(MyIntentService.THROTTLE, 40);
+            b.putDouble(MyIntentService.OIL_TEMP, 182);
+            b.putDouble(MyIntentService.FUEL_LEVEL, 82);
+            b.putDouble(MyIntentService.FUEL_CONSUMPTION, 0.1);
+
+            sendMessageWithService(b);
+            Log.d(TAG, "Sent that message! i = " + i);
+
 //            try {
-//                Thread.sleep(3000);
+//                Thread.sleep(1000);
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
-//        }
+        }
 
 
     }
