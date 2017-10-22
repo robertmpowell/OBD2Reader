@@ -45,9 +45,9 @@ class OBD2_HackISU_ConnectIQApp extends App.AppBase {
 
         validData = true;
 
-        if(0.0 != data[6])
+        //if(0.0 != queue[6])
         {
-            ViewHelper.notifyIssue(data[6]);
+           // ViewHelper.notifyIssue(queue[6]);
         }
 
         Ui.requestUpdate();

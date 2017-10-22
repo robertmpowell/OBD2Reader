@@ -146,6 +146,7 @@ public class MyIntentService extends IntentService {
             list.add(b.getDouble(OIL_TEMP));
             list.add(b.getDouble(FUEL_LEVEL));
             list.add(b.getDouble(FUEL_CONSUMPTION));
+            //list.add(b.getDouble(ALERT));
 
             // Sends the message
             mConnectIQ.sendMessage(mDevice, mMyApp, list, new ConnectIQ.IQSendMessageListener() {
