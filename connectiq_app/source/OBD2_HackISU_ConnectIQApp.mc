@@ -4,8 +4,8 @@ using Toybox.WatchUi        as Ui;
 using Toybox.System         as Sys;
 using Toybox.Graphics       as Gfx;
 
-var queueSize = 3;
-var queue = [{}, {}, {}];
+var queueSize = 5;
+var queue = [{}, {}, {}, {}, {}];
 var phoneMethod;
 var page = 1;
 var validData = false;
@@ -33,7 +33,7 @@ class OBD2_HackISU_ConnectIQApp extends App.AppBase {
     // Return the initial view of your application here
     function getInitialView()
     {
-        return [new OBD2_HackISU_ConnectIQView01(), new BaseInputDelegate()];
+        return [new OBD2_HackISU_ConnectIQView01(), new BaseInputDelegate(), new CommInputDelegate()];
     }
 
     function onPhone(msg)
