@@ -39,16 +39,28 @@ class OBD2_HackISU_ConnectIQApp extends App.AppBase {
 
     function onPhone(msg)
     {
-        var i;
-
         queue = msg.data;
 
         validData = true;
 
-        //if(0.0 != queue[6])
-        {
-           // ViewHelper.notifyIssue(queue[6]);
-        }
+
+
+//        if(0.0 != queue[6])
+//        {
+			/*Apple.playTone(TONE_CANARY);
+            if(true == System.getDeviceSettings().vibrateOn())
+            {
+                vibeData =
+                    [
+                        new Attention.VibeProfile(100, 500), // On for two seconds
+                        new Attention.VibeProfile(0, 500)  // Off for two seconds
+                    ];
+                Attention.vibrate(vibeData);
+            }
+
+			//Apple.backlight(true);*/
+ //       }
+
 
         Ui.requestUpdate();
     }
@@ -101,20 +113,5 @@ class ViewHelper
             }
             dc.setColor(tickColor, Gfx.COLOR_TRANSPARENT);
         }
-    }
-
-    function notifyIssue(alert)
-    {
-        Attention.playTone(TONE_CANARY);
-        vibeData =
-            [
-                new Attention.VibeProfile(100, 500), // On for two seconds
-                new Attention.VibeProfile(0, 500),  // Off for two seconds
-                new Attention.VibeProfile(100, 500), // On for two seconds
-                new Attention.VibeProfile(0, 500),  // Off for two seconds
-                new Attention.VibeProfile(100, 500)  // on for two seconds
-            ];
-        Attention.vibrate(vibeData);
-        Attention.backlight(true);
     }
 }
