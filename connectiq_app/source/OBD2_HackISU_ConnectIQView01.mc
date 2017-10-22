@@ -26,12 +26,6 @@ class OBD2_HackISU_ConnectIQView01 extends Ui.View
     {
         setLayout(Rez.Layouts.MainLayout(dc));
         screenShape = Sys.getDeviceSettings().screenShape;
-        
-        findDrawableById("id_title").setLocation(dc.getWidth()/2, 25);
-        findDrawableById("id_data_desc").setLocation(dc.getWidth()/2, 50);
-        findDrawableById("id_data_value").setLocation(dc.getWidth()/2, 80);
-        findDrawableById("id_secondary_data_desc").setLocation(dc.getWidth()/2, 115);
-        findDrawableById("id_secondary_data_value").setLocation(dc.getWidth()/2, 140);
     }
 
     // Called when this View is brought to the foreground. Restore
@@ -44,10 +38,18 @@ class OBD2_HackISU_ConnectIQView01 extends Ui.View
     // Update the view
     function onUpdate(dc)
     {
+        dc.setColor(Gfx.COLOR_TRANSPARENT, Gfx.COLOR_BLACK);
         dc.clear();
+        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
 
         var speed   = 0.0;
         var tach    = 0.0;
+
+        findDrawableById("id_title").setLocation(dc.getWidth()/2, 25);
+        findDrawableById("id_data_desc").setLocation(dc.getWidth()/2, 50);
+        findDrawableById("id_data_value").setLocation(dc.getWidth()/2, 80);
+        findDrawableById("id_secondary_data_desc").setLocation(dc.getWidth()/2, 115);
+        findDrawableById("id_secondary_data_value").setLocation(dc.getWidth()/2, 140);
 
         if(false == validData)
         {
@@ -55,19 +57,19 @@ class OBD2_HackISU_ConnectIQView01 extends Ui.View
         }
         else
         {
-            speed = queue[0].get("speed");
-            tach  = queue[0].get("tach");
-            //findDrawableById("id_title").setText("OBD2Reader");
-            //findDrawableById("id_data_desc").setText("Speed");
+            speed = queue[0];
+            tach  = queue[1];
+            findDrawableById("id_title").setText("OBD2Reader");
+            findDrawableById("id_data_desc").setText("Speed");
             findDrawableById("id_data_value").setText(speed.toString());
-            //findDrawableById("id_secondary_data_desc").setText("Tach");
+            findDrawableById("id_secondary_data_desc").setText("Tach");
             findDrawableById("id_secondary_data_value").setText(tach.toString());
 
 
         }
         View.onUpdate(dc);
-        //ViewHelper.drawGauge(dc, 100.0, speed, true, 3, Gfx.COLOR_BLUE, Gfx.COLOR_WHITE);
-        //ViewHelper.drawGauge(dc, 8000.0, tach,  false, 3, Gfx.COLOR_GREEN, Gfx.COLOR_WHITE);
+        ViewHelper.drawGauge(dc, 100.0, speed, true, Gfx.COLOR_BLUE, Gfx.COLOR_WHITE);
+        ViewHelper.drawGauge(dc, 8000.0, tach,  false, Gfx.COLOR_GREEN, Gfx.COLOR_WHITE);
     }
 
     // Called when this View is removed from the screen. Save the

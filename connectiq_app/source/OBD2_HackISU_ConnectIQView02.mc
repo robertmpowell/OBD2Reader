@@ -59,8 +59,8 @@ class OBD2_HackISU_ConnectIQView02 extends Ui.View
         }
         else
         {
-            throttle    = queue[0].get("throttle");
-            oil_temp    = queue[0].get("oil_temp");
+            throttle    = queue[2];
+            oil_temp    = queue[3];
             findDrawableById("id_title").setText("OBD2Reader");
             findDrawableById("id_data_desc").setText("Throttle");
             findDrawableById("id_data_value").setText(throttle.toString() + " %");
@@ -70,8 +70,8 @@ class OBD2_HackISU_ConnectIQView02 extends Ui.View
 
         View.onUpdate(dc);
 
-        ViewHelper.drawGauge(dc, 100.0, throttle, true, 3, Gfx.COLOR_BLUE, Gfx.COLOR_WHITE);
-        ViewHelper.drawGauge(dc, 250.0, oil_temp, false, 3, Gfx.COLOR_GREEN, Gfx.COLOR_WHITE);
+        ViewHelper.drawGauge(dc, 100.0, throttle, true, Gfx.COLOR_BLUE, Gfx.COLOR_WHITE);
+        ViewHelper.drawGauge(dc, 250.0, oil_temp, false, Gfx.COLOR_GREEN, Gfx.COLOR_WHITE);
     }
 
     // Called when this View is removed from the screen. Save the

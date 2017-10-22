@@ -59,8 +59,8 @@ class OBD2_HackISU_ConnectIQView03 extends Ui.View
         }
         else
         {
-            fuel_level          = queue[0].get("fuel_level");
-            fuel_consumption    = queue[0].get("fuel_consumption");
+            fuel_level          = queue[4];
+            fuel_consumption    = queue[5];
             findDrawableById("id_title").setText("OBD2Reader");
             findDrawableById("id_data_desc").setText("Fuel Level");
             findDrawableById("id_data_value").setText(fuel_level.toString() + " %");
@@ -70,8 +70,8 @@ class OBD2_HackISU_ConnectIQView03 extends Ui.View
 
         View.onUpdate(dc);
 
-        ViewHelper.drawGauge(dc, 100.0, fuel_level, true, 3, Gfx.COLOR_BLUE, Gfx.COLOR_WHITE);
-        ViewHelper.drawGauge(dc, 0.50, fuel_consumption, false, 3, Gfx.COLOR_GREEN, Gfx.COLOR_WHITE);
+        ViewHelper.drawGauge(dc, 100.0, fuel_level, true, Gfx.COLOR_BLUE, Gfx.COLOR_WHITE);
+        ViewHelper.drawGauge(dc, 0.50, fuel_consumption, false, Gfx.COLOR_GREEN, Gfx.COLOR_WHITE);
     }
 
     // Called when this View is removed from the screen. Save the

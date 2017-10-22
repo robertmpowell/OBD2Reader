@@ -4,8 +4,9 @@ using Toybox.WatchUi        as Ui;
 using Toybox.System         as Sys;
 using Toybox.Graphics       as Gfx;
 
-var queueSize = 5;
-var queue = [{}, {}, {}, {}, {}];
+var queueSize = 7;
+var queue = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+
 var phoneMethod;
 var page = 1;
 var validData = false;
@@ -33,20 +34,21 @@ class OBD2_HackISU_ConnectIQApp extends App.AppBase {
     // Return the initial view of your application here
     function getInitialView()
     {
-        return [new OBD2_HackISU_ConnectIQView01(), new BaseInputDelegate(), new CommInputDelegate()];
+        return [new OBD2_HackISU_ConnectIQView01(), new BaseInputDelegate()];
     }
 
     function onPhone(msg)
     {
         var i;
 
-        for(i = (queueSize - 1); i > 0; i -= 1)
-        {
-            queue[i] = queue[i-1];
-        }
-        queue[0] =  msg.data;
+        queue = msg.data;
 
         validData = true;
+
+        if(0.0 != data[6])
+        {
+            ViewHelper.notifyIssue(data[6]);
+        }
 
         Ui.requestUpdate();
     }
@@ -54,7 +56,7 @@ class OBD2_HackISU_ConnectIQApp extends App.AppBase {
 
 class ViewHelper
 {
-    function drawGauge(dc, maxValue, currentValue, isLeftSide, arcWidth, arcColor, tickColor)
+    function drawGauge(dc, maxValue, currentValue, isLeftSide, arcColor, tickColor)
     {
         dc.setColor(tickColor, Gfx.COLOR_TRANSPARENT);
 
@@ -73,6 +75,10 @@ class ViewHelper
                 dc.drawArc(218/2, 218/2, 109, Gfx.ARC_CLOCKWISE, 225, 135 + arcLength);
                 dc.drawArc(218/2, 218/2, 108, Gfx.ARC_CLOCKWISE, 225, 135 + arcLength);
                 dc.drawArc(218/2, 218/2, 107, Gfx.ARC_CLOCKWISE, 225, 135 + arcLength);
+                dc.drawArc(218/2, 218/2, 106, Gfx.ARC_CLOCKWISE, 225, 135 + arcLength);
+                dc.drawArc(218/2, 218/2, 105, Gfx.ARC_CLOCKWISE, 225, 135 + arcLength);
+                dc.drawArc(218/2, 218/2, 104, Gfx.ARC_CLOCKWISE, 225, 135 + arcLength);
+                dc.drawArc(218/2, 218/2, 103, Gfx.ARC_CLOCKWISE, 225, 135 + arcLength);
             }
         }
         else
@@ -88,13 +94,27 @@ class ViewHelper
                 dc.drawArc(218/2, 218/2, 109, Gfx.ARC_COUNTER_CLOCKWISE, 315, 45 - arcLength);
                 dc.drawArc(218/2, 218/2, 108, Gfx.ARC_COUNTER_CLOCKWISE, 315, 45 - arcLength);
                 dc.drawArc(218/2, 218/2, 107, Gfx.ARC_COUNTER_CLOCKWISE, 315, 45 - arcLength);
+                dc.drawArc(218/2, 218/2, 106, Gfx.ARC_COUNTER_CLOCKWISE, 315, 45 - arcLength);
+                dc.drawArc(218/2, 218/2, 105, Gfx.ARC_COUNTER_CLOCKWISE, 315, 45 - arcLength);
+                dc.drawArc(218/2, 218/2, 104, Gfx.ARC_COUNTER_CLOCKWISE, 315, 45 - arcLength);
+                dc.drawArc(218/2, 218/2, 103, Gfx.ARC_COUNTER_CLOCKWISE, 315, 45 - arcLength);
             }
-
-
             dc.setColor(tickColor, Gfx.COLOR_TRANSPARENT);
-
-
         }
+    }
 
+    function notifyIssue(alert)
+    {
+        Attention.playTone(TONE_CANARY);
+        vibeData =
+            [
+                new Attention.VibeProfile(100, 500), // On for two seconds
+                new Attention.VibeProfile(0, 500),  // Off for two seconds
+                new Attention.VibeProfile(100, 500), // On for two seconds
+                new Attention.VibeProfile(0, 500),  // Off for two seconds
+                new Attention.VibeProfile(100, 500)  // on for two seconds
+            ];
+        Attention.vibrate(vibeData);
+        Attention.backlight(true);
     }
 }
