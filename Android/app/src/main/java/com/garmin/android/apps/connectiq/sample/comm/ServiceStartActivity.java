@@ -34,6 +34,7 @@ public class ServiceStartActivity extends Activity {
         b.putDouble(MyIntentService.OIL_TEMP, 182);
         b.putDouble(MyIntentService.FUEL_LEVEL, 82);
         b.putDouble(MyIntentService.FUEL_CONSUMPTION, 0.1);
+        b.putDouble(MyIntentService.ALERT, 0);
 
         sendMessageWithService(b);
 
@@ -56,6 +57,12 @@ public class ServiceStartActivity extends Activity {
             b.putDouble(MyIntentService.OIL_TEMP, 182);
             b.putDouble(MyIntentService.FUEL_LEVEL, 82);
             b.putDouble(MyIntentService.FUEL_CONSUMPTION, 0.1);
+            if(i < 7) {
+                b.putDouble(MyIntentService.ALERT, 0);
+            }
+            else{
+                b.putDouble(MyIntentService.ALERT, 1);
+            }
 
             sendMessageWithService(b);
             Log.d(TAG, "Sent that message! i = " + i);

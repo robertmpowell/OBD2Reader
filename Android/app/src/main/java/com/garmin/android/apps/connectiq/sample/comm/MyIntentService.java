@@ -39,6 +39,7 @@ public class MyIntentService extends IntentService {
     public static final String OIL_TEMP = "oil_temp";
     public static final String FUEL_LEVEL = "fuel_level";
     public static final String FUEL_CONSUMPTION = "fuel_consumption";
+    public static final String ALERT = "alert";
 
     private ConnectIQ mConnectIQ;
     private IQDeviceAdapter mAdapter;
